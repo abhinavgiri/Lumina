@@ -1,0 +1,251 @@
+{
+  "roles": {
+    "Data Engineer": {
+      "ETL": 3,
+      "Apache Spark": 3,
+      "Apache Airflow": 3,
+      "Apache Kafka": 2.5,
+      "Data Warehousing": 2.5,
+      "dbt": 2.5,
+      "Snowflake": 2,
+      "Databricks": 2.5,
+      "Python": 1.5,
+      "SQL": 1.5,
+      "Data Modeling": 2,
+      "Streaming": 2,
+      "Hadoop": 2
+    },
+    "ETL Developer": {
+      "ETL": 3.5,
+      "SQL": 2,
+      "Data Warehousing": 2.5,
+      "Apache Airflow": 2,
+      "Azure Data Factory": 2.5,
+      "Data Modeling": 2
+    },
+    "Analytics Engineer": {
+      "dbt": 3.5,
+      "SQL": 2.5,
+      "Data Modeling": 2.5,
+      "Snowflake": 2,
+      "BigQuery": 2,
+      "Data Warehousing": 2,
+      "Python": 1
+    },
+    "Data Analyst": {
+      "SQL": 2.5,
+      "Excel": 2,
+      "Power BI": 2.5,
+      "Tableau": 2.5,
+      "Data Analysis": 3,
+      "Statistical Analysis": 2,
+      "KPI Reporting": 2.5,
+      "Python": 1,
+      "Pandas": 1.5
+    },
+    "Power BI Developer": {
+      "Power BI": 4,
+      "DAX": 3.5,
+      "SQL": 1.5,
+      "Data Modeling": 1.5,
+      "KPI Reporting": 2,
+      "Business Intelligence": 2
+    },
+    "BI Developer": {
+      "Power BI": 3,
+      "Tableau": 2.5,
+      "Looker": 2.5,
+      "Business Intelligence": 3.5,
+      "SQL": 2,
+      "Data Warehousing": 2,
+      "DAX": 2,
+      "KPI Reporting": 2
+    },
+    "Business Intelligence Engineer": {
+      "Business Intelligence": 3.5,
+      "SQL": 2,
+      "Data Warehousing": 2.5,
+      "Power BI": 2,
+      "Tableau": 2,
+      "ETL": 2,
+      "Data Modeling": 2
+    },
+    "Reporting Analyst": {
+      "KPI Reporting": 3.5,
+      "Power BI": 2.5,
+      "Excel": 2.5,
+      "SQL": 2,
+      "Tableau": 2,
+      "DAX": 1.5
+    },
+    "SQL Developer": {
+      "SQL": 4,
+      "SQL Server": 3,
+      "PostgreSQL": 2,
+      "MySQL": 2,
+      "Data Modeling": 1.5,
+      "ETL": 1.5
+    },
+    "Database Administrator": {
+      "SQL Server": 3,
+      "PostgreSQL": 2.5,
+      "MySQL": 2.5,
+      "MongoDB": 2,
+      "SQL": 2,
+      "Linux": 1.5
+    },
+    "Azure Data Engineer": {
+      "Azure": 3.5,
+      "Azure Data Factory": 3.5,
+      "Databricks": 2.5,
+      "ETL": 2,
+      "SQL": 1.5,
+      "Data Warehousing": 2
+    },
+    "AWS Data Engineer": {
+      "AWS": 3.5,
+      "Amazon Redshift": 3,
+      "Amazon S3": 2.5,
+      "AWS Lambda": 2,
+      "ETL": 2,
+      "Apache Spark": 2
+    },
+    "Databricks Engineer": {
+      "Databricks": 4,
+      "Apache Spark": 3,
+      "Python": 1.5,
+      "Azure": 1.5,
+      "Streaming": 1.5
+    },
+    "Data Scientist": {
+      "Machine Learning": 3.5,
+      "Statistical Analysis": 3,
+      "Python": 2,
+      "Pandas": 2,
+      "scikit-learn": 2.5,
+      "Deep Learning": 2,
+      "NumPy": 1.5,
+      "Time Series Analysis": 2
+    },
+    "Machine Learning Engineer": {
+      "Machine Learning": 3.5,
+      "PyTorch": 3,
+      "TensorFlow": 3,
+      "MLOps": 3,
+      "Deep Learning": 2.5,
+      "Python": 2,
+      "Kubernetes": 1.5
+    },
+    "AI Engineer": {
+      "LLM Integration": 4,
+      "RAG": 3.5,
+      "Prompt Engineering": 3,
+      "Machine Learning": 2,
+      "Python": 2,
+      "NLP": 2.5
+    },
+    "Software Engineer": {
+      "Python": 2,
+      "Java": 2,
+      "JavaScript": 2,
+      "TypeScript": 2,
+      "Go": 2,
+      "REST APIs": 2,
+      "Git": 1,
+      "C++": 2,
+      "C#": 2
+    },
+    "Backend Developer": {
+      "REST APIs": 3,
+      "Node.js": 2.5,
+      "Django": 2.5,
+      "FastAPI": 2.5,
+      "Flask": 2,
+      "PostgreSQL": 2,
+      "Java": 2,
+      "Go": 2,
+      "GraphQL": 2
+    },
+    "Frontend Developer": {
+      "React": 3.5,
+      "Next.js": 3,
+      "TypeScript": 2.5,
+      "JavaScript": 2.5,
+      "GraphQL": 1.5
+    },
+    "Full Stack Developer": {
+      "React": 2.5,
+      "Node.js": 2.5,
+      "TypeScript": 2,
+      "REST APIs": 2,
+      "Next.js": 2,
+      "PostgreSQL": 1.5,
+      "MongoDB": 1.5
+    },
+    "DevOps Engineer": {
+      "Docker": 3,
+      "Kubernetes": 3.5,
+      "CI/CD": 3,
+      "Terraform": 3,
+      "Jenkins": 2.5,
+      "Linux": 2,
+      "AWS": 1.5,
+      "Azure": 1.5,
+      "GCP": 1.5
+    },
+    "Cloud Engineer": {
+      "AWS": 3,
+      "Azure": 3,
+      "GCP": 3,
+      "Terraform": 2.5,
+      "Kubernetes": 2,
+      "Docker": 1.5,
+      "Linux": 1.5
+    },
+    "Data Architect": {
+      "Data Modeling": 3.5,
+      "Data Warehousing": 3,
+      "ETL": 2,
+      "Snowflake": 2,
+      "SQL": 1.5,
+      "Apache Kafka": 1.5
+    },
+    "Oracle ODI Developer": {
+      "Oracle ODI": 4,
+      "Oracle Fusion": 2.5,
+      "ETL": 2.5,
+      "PL/SQL": 2,
+      "SQL": 1.5
+    },
+    "Business Analyst": {
+      "Excel": 2.5,
+      "SQL": 2,
+      "Stakeholder Management": 3,
+      "Business Intelligence": 2,
+      "KPI Reporting": 2,
+      "Data Analysis": 2
+    }
+  },
+  "titleAliases": [
+    [
+      "Data Engineer",
+      "data engineering"
+    ],
+    [
+      "Data Analyst",
+      "data analytics"
+    ],
+    [
+      "BI Developer",
+      "business intelligence"
+    ],
+    [
+      "Oracle ODI Developer",
+      "oracle odi"
+    ],
+    [
+      "Oracle ODI Developer",
+      "odi developer"
+    ]
+  ]
+}

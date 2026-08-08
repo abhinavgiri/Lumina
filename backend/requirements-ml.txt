@@ -1,0 +1,17 @@
+# Lumina "own AI engine" — ML dependencies (kept separate from the serving app
+# so the API image stays light; install only where models are trained/served).
+#
+#   pip install -r requirements-ml.txt
+#   # torch is CPU-only; installed from the CPU wheel index:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# Role classifier (TF-IDF + LogisticRegression):
+scikit-learn==1.9.0
+numpy==2.5.1
+scipy==1.18.0
+joblib==1.5.3
+pandas
+# Semantic resume<->job matching (embeddings + ANN search):
+sentence-transformers==5.7.0
+faiss-cpu==1.15.0
+# torch==2.13.0+cpu  (see CPU wheel note above — do not pin here; index-url install)

@@ -1,0 +1,96 @@
+# Full-stack local run: frontend + backend + Postgres + Redis + Celery.
+#   docker compose up --build
+# Then open http://localhost:3000
+#
+# (For just the API, use backend/docker-compose.yml instead.)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: lumina
+      POSTGRES_PASSWORD: lumina
+      POSTGRES_DB: lumina
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumina"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---- Python FastAPI job-search backend ----
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+asyncpg://lumina:lumina@postgres:5432/lumina
+      REDIS_URL: redis://redis:6379/0
+      CORS_ORIGINS: '["http://localhost:3000"]'
+      # ---- Job aggregators for India-wide breadth ----
+      # Keys live in the git-ignored root .env (Adzuna: developer.adzuna.com,
+      # Jooble: jooble.org/api/about). Empty by default so adapters stay inert.
+      ADZUNA_APP_ID: ${ADZUNA_APP_ID:-}
+      ADZUNA_APP_KEY: ${ADZUNA_APP_KEY:-}
+      ADZUNA_COUNTRY: ${ADZUNA_COUNTRY:-in}
+      JOOBLE_API_KEY: ${JOOBLE_API_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: ./backend
+    command: celery -A app.scheduler.celery_app worker --loglevel=info
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  beat:
+    build: ./backend
+    command: celery -A app.scheduler.celery_app beat --loglevel=info
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ---- Next.js frontend (Lumina) ----
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      # "auto" = use a free LLM (Groq/Gemini) when a key is present, local
+      # heuristics otherwise. Keys live in the git-ignored root .env.
+      AI_ENGINE: ${AI_ENGINE:-auto}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      # SQLite lives in a named volume so saved resumes/analyses persist.
+      DATABASE_URL: file:/data/app.db
+      # Talk to the FastAPI backend over the compose network.
+      JOBS_API_URL: http://api:8000
+    volumes:
+      - webdata:/data
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  webdata:

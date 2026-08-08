@@ -1,0 +1,274 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+/// A user is created anonymously on first use — no sign-up required, which is
+/// the promise on the landing page. `email`/`passwordHash` stay null until the
+/// user OPTIONALLY claims the account, at which point their existing anonymous
+/// work carries over (see server/services/authService.ts).
+model User {
+  id           String   @id @default(cuid())
+  email        String?  @unique
+  passwordHash String? // null = anonymous (unclaimed) account
+  createdAt    DateTime @default(now())
+
+  sessions     Session[]
+  resumes      Resume[]
+  jobDescs     JobDesc[]
+  applications Application[]
+  profile      CareerProfile?
+}
+
+/// The Career Profile spine: career-level facts that outlive any single resume.
+///
+/// Deliberately does NOT duplicate experience, projects or certifications —
+/// those live in Resume.structuredJson, and mirroring them here would create a
+/// two-way sync problem with no benefit. This holds only what is genuinely
+/// about the PERSON rather than about one document.
+model CareerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Roles the user is actually targeting, JSON string array.
+  targetRolesJson String?
+  /// junior | mid | senior | lead — derived from resumes, overridable.
+  seniority       String?
+  preferredLocation String?
+  openToRemote      Boolean @default(true)
+
+  /// When skills were last derived from the resumes. Lets a profile read skip
+  /// the whole re-sync when nothing new has been added — that sync was running
+  /// on EVERY GET and dominated the endpoint's cost.
+  skillsSyncedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  skills   ProfileSkill[]
+  learning LearningItem[]
+}
+
+/// A skill the person has, tracked over time rather than re-derived per resume.
+///
+/// This is what makes skill GROWTH measurable: `firstSeenAt` records when it
+/// first appeared, and `source` distinguishes what we inferred from what the
+/// user asserted, so we never present a guess as their own claim.
+model ProfileSkill {
+  id        String        @id @default(cuid())
+  profileId String
+  profile   CareerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  name String
+  /// resume | manual — where this skill came from.
+  source String @default("resume")
+  /// Optional self-assessment; never inferred.
+  proficiency String?
+
+  firstSeenAt DateTime @default(now())
+  lastSeenAt  DateTime @default(now())
+
+  @@unique([profileId, name])
+  @@index([profileId])
+}
+
+/// A learning commitment, usually adopted from a generated skill-gap roadmap.
+/// Closes the loop: the app suggests a gap, the user commits, progress is real.
+model LearningItem {
+  id        String        @id @default(cuid())
+  profileId String
+  profile   CareerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  skill String
+  /// planned | learning | done
+  status String  @default("planned")
+  /// roadmap | manual
+  source String  @default("manual")
+  notes  String?
+
+  targetDate  DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([profileId, status])
+}
+
+/// An interview round for an application.
+///
+/// The application pipeline records THAT someone reached interview; this
+/// records what actually happened. Together they are the labelled outcome data
+/// any future "will this resume get an interview" model would need.
+model Interview {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  /// 1-based round number.
+  round Int    @default(1)
+  /// screen | technical | system-design | behavioural | onsite | final
+  kind  String @default("screen")
+  /// scheduled | passed | failed | cancelled
+  outcome String @default("scheduled")
+  notes   String?
+
+  scheduledAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([applicationId])
+}
+
+/// Server-side sessions. The cookie carries a 256-bit random token; only its
+/// SHA-256 hash is stored, so a database leak yields no usable sessions.
+/// Replaces the previous scheme where the cookie held the raw user id and was
+/// therefore trivially forgeable.
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+/// A job the user is pursuing, moving through saved → applied → interviewing →
+/// offer/rejected. This is the first piece of the Career Profile spine.
+///
+/// It is also the ONLY place real hiring OUTCOMES are captured. That matters
+/// beyond the UI: an ATS/match model can't be trained honestly without knowing
+/// which applications actually led to interviews, and this is where that label
+/// comes from — with the user's own data, by their own action.
+model Application {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Which resume version was sent — lets us compare outcomes across versions.
+  resumeId  String?
+  resume    Resume?  @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+  jobDescId String?
+  jobDesc   JobDesc? @relation(fields: [jobDescId], references: [id], onDelete: SetNull)
+
+  company  String
+  title    String
+  location String?
+  url      String?
+  /// Where the posting came from (Greenhouse, Adzuna, manual…).
+  source   String?
+  /// Score from the job search at the time it was saved, for later comparison.
+  matchPercent Int?
+
+  /// saved | applied | interviewing | offer | rejected
+  status    String    @default("saved")
+  notes     String?
+  appliedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events     ApplicationEvent[]
+  interviews Interview[]
+
+  @@index([userId])
+  @@index([userId, status])
+  /// The tracker lists most-recently-updated first.
+  @@index([userId, updatedAt])
+}
+
+/// Timeline of status transitions — the labelled history an outcome model
+/// would train on ("this resume, this match score → interview").
+model ApplicationEvent {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  status        String
+  note          String?
+  createdAt     DateTime    @default(now())
+
+  @@index([applicationId])
+}
+
+model Resume {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  source         String // "uploaded" | "built"
+  /// Human label for this version, e.g. "Data Engineer - Druva".
+  label          String?
+  rawText        String
+  structuredJson String? // JSON string of structured resume fields
+  filePath       String?
+  createdAt      DateTime @default(now())
+
+  atsReports      AtsReport[]
+  tailoredResumes TailoredResume[]
+  applications    Application[]
+
+  @@index([userId])
+  /// The dashboard always asks for a user's newest resume.
+  @@index([userId, createdAt])
+}
+
+model JobDesc {
+  id                     String   @id @default(cuid())
+  userId                 String
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rawText                String
+  parsedRequirementsJson String? // JSON string of parsed requirements
+  createdAt              DateTime @default(now())
+
+  atsReports      AtsReport[]
+  tailoredResumes TailoredResume[]
+  applications    Application[]
+
+  @@index([userId])
+}
+
+model AtsReport {
+  id            String   @id @default(cuid())
+  resumeId      String
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  jobDescId     String?
+  jobDesc       JobDesc? @relation(fields: [jobDescId], references: [id], onDelete: Cascade)
+  score         Int
+  breakdownJson String // JSON string of score breakdown
+  createdAt     DateTime @default(now())
+
+  roadmap Roadmap?
+
+  @@index([resumeId])
+  @@index([jobDescId])
+  /// Analytics reads reports oldest-first for a trend.
+  @@index([resumeId, createdAt])
+}
+
+model Roadmap {
+  id          String    @id @default(cuid())
+  atsReportId String    @unique
+  atsReport   AtsReport @relation(fields: [atsReportId], references: [id], onDelete: Cascade)
+  stepsJson   String // JSON string of roadmap steps
+  createdAt   DateTime  @default(now())
+}
+
+model TailoredResume {
+  id             String   @id @default(cuid())
+  resumeId       String
+  resume         Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  jobDescId      String
+  jobDesc        JobDesc  @relation(fields: [jobDescId], references: [id], onDelete: Cascade)
+  structuredJson String // JSON string of the tailored StructuredResume
+  changesJson    String // JSON string array of what changed and why
+  gapsJson       String // JSON string array of JD requirements not truthfully addressable
+  createdAt      DateTime @default(now())
+
+  @@index([resumeId])
+  @@index([jobDescId])
+}
