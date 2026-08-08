@@ -1,0 +1,132 @@
+// GENERATED FILE — DO NOT EDIT BY HAND.
+// Source: shared/skills.json
+// Regenerate: npm run gen:shared
+
+export type SkillDef = {
+  name: string;
+  aliases: string[];
+  category:
+    | "language"
+    | "data"
+    | "cloud"
+    | "web"
+    | "devops"
+    | "ai"
+    | "analytics"
+    | "database"
+    | "soft"
+    | "tool";
+  difficulty: "easy" | "moderate" | "hard";
+};
+
+export const SKILLS: SkillDef[] = [
+  { name: "A/B Testing", aliases: ["ab testing","experimentation"], category: "analytics", difficulty: "easy" },
+  { name: "Agile", aliases: ["kanban","scrum"], category: "soft", difficulty: "easy" },
+  { name: "Amazon Bedrock", aliases: ["bedrock"], category: "cloud", difficulty: "easy" },
+  { name: "Amazon EMR", aliases: ["emr"], category: "cloud", difficulty: "moderate" },
+  { name: "Amazon Redshift", aliases: ["redshift"], category: "cloud", difficulty: "moderate" },
+  { name: "Amazon S3", aliases: ["s3"], category: "cloud", difficulty: "easy" },
+  { name: "Apache Airflow", aliases: ["airflow"], category: "data", difficulty: "moderate" },
+  { name: "Apache Kafka", aliases: ["kafka"], category: "data", difficulty: "hard" },
+  { name: "Apache Spark", aliases: ["pyspark","spark"], category: "data", difficulty: "hard" },
+  { name: "AWS", aliases: ["amazon web services"], category: "cloud", difficulty: "moderate" },
+  { name: "AWS Lambda", aliases: ["lambda functions"], category: "cloud", difficulty: "easy" },
+  { name: "Azure", aliases: ["microsoft azure"], category: "cloud", difficulty: "moderate" },
+  { name: "Azure Data Factory", aliases: ["adf"], category: "cloud", difficulty: "moderate" },
+  { name: "Azure Synapse", aliases: ["synapse analytics"], category: "cloud", difficulty: "moderate" },
+  { name: "Bash", aliases: ["shell script","shell scripting"], category: "language", difficulty: "easy" },
+  { name: "BigQuery", aliases: ["google bigquery"], category: "cloud", difficulty: "moderate" },
+  { name: "Business Intelligence", aliases: ["bi"], category: "analytics", difficulty: "moderate" },
+  { name: "C#", aliases: [".net","csharp"], category: "language", difficulty: "moderate" },
+  { name: "C++", aliases: ["cpp"], category: "language", difficulty: "hard" },
+  { name: "Cassandra", aliases: [], category: "database", difficulty: "hard" },
+  { name: "CI/CD", aliases: ["cicd","continuous deployment","continuous integration"], category: "devops", difficulty: "moderate" },
+  { name: "Claude API", aliases: ["anthropic api"], category: "ai", difficulty: "easy" },
+  { name: "Cross-functional Collaboration", aliases: ["cross functional","cross-functional teams"], category: "soft", difficulty: "easy" },
+  { name: "Data Analysis", aliases: ["data analytics"], category: "analytics", difficulty: "easy" },
+  { name: "Data Governance", aliases: ["data lineage","data quality"], category: "data", difficulty: "moderate" },
+  { name: "Data Modeling", aliases: ["data modelling","dimensional modeling","star schema"], category: "data", difficulty: "moderate" },
+  { name: "Data Warehousing", aliases: ["data warehouse","dwh"], category: "data", difficulty: "moderate" },
+  { name: "Databricks", aliases: [], category: "data", difficulty: "moderate" },
+  { name: "DAX", aliases: [], category: "analytics", difficulty: "moderate" },
+  { name: "dbt", aliases: ["data build tool"], category: "data", difficulty: "moderate" },
+  { name: "Deep Learning", aliases: ["neural networks"], category: "ai", difficulty: "hard" },
+  { name: "Django", aliases: [], category: "web", difficulty: "moderate" },
+  { name: "Docker", aliases: ["containerization","containers"], category: "devops", difficulty: "moderate" },
+  { name: "DynamoDB", aliases: [], category: "database", difficulty: "easy" },
+  { name: "Elasticsearch", aliases: ["elastic search"], category: "database", difficulty: "moderate" },
+  { name: "ETL", aliases: ["data pipeline","data pipelines","elt","etl pipelines"], category: "data", difficulty: "moderate" },
+  { name: "Excel", aliases: ["google sheets","microsoft excel","ms excel"], category: "analytics", difficulty: "easy" },
+  { name: "FastAPI", aliases: [], category: "web", difficulty: "easy" },
+  { name: "Financial Analysis", aliases: ["financial operations","order to cash","order-to-cash","otc"], category: "analytics", difficulty: "moderate" },
+  { name: "Flask", aliases: [], category: "web", difficulty: "easy" },
+  { name: "GCP", aliases: ["google cloud","google cloud platform"], category: "cloud", difficulty: "moderate" },
+  { name: "Git", aliases: ["github","gitlab","version control"], category: "devops", difficulty: "easy" },
+  { name: "Go", aliases: ["golang"], category: "language", difficulty: "moderate" },
+  { name: "GraphQL", aliases: [], category: "web", difficulty: "moderate" },
+  { name: "Hadoop", aliases: ["hdfs","mapreduce"], category: "data", difficulty: "hard" },
+  { name: "HTML/CSS", aliases: ["css","html"], category: "web", difficulty: "easy" },
+  { name: "Informatica", aliases: ["informatica powercenter"], category: "data", difficulty: "moderate" },
+  { name: "Java", aliases: [], category: "language", difficulty: "moderate" },
+  { name: "JavaScript", aliases: ["ecmascript","js"], category: "language", difficulty: "moderate" },
+  { name: "Jenkins", aliases: [], category: "devops", difficulty: "moderate" },
+  { name: "JIRA", aliases: ["jira"], category: "tool", difficulty: "easy" },
+  { name: "JSON", aliases: [], category: "tool", difficulty: "easy" },
+  { name: "KPI Reporting", aliases: ["dashboarding","dashboards","kpi","kpis","sla monitoring"], category: "analytics", difficulty: "easy" },
+  { name: "Kubernetes", aliases: ["k8s"], category: "devops", difficulty: "hard" },
+  { name: "Linux", aliases: ["unix"], category: "devops", difficulty: "moderate" },
+  { name: "LLM Integration", aliases: ["gen ai","genai","generative ai","large language models","llm"], category: "ai", difficulty: "moderate" },
+  { name: "Looker", aliases: ["looker studio"], category: "analytics", difficulty: "easy" },
+  { name: "Machine Learning", aliases: ["ml"], category: "ai", difficulty: "hard" },
+  { name: "Medallion Architecture", aliases: ["bronze silver gold"], category: "data", difficulty: "easy" },
+  { name: "Mentoring", aliases: ["knowledge transfer","training"], category: "soft", difficulty: "easy" },
+  { name: "MLOps", aliases: ["ml ops"], category: "ai", difficulty: "hard" },
+  { name: "MongoDB", aliases: ["mongo"], category: "database", difficulty: "easy" },
+  { name: "MySQL", aliases: [], category: "database", difficulty: "easy" },
+  { name: "Next.js", aliases: ["nextjs"], category: "web", difficulty: "moderate" },
+  { name: "NLP", aliases: ["natural language processing"], category: "ai", difficulty: "hard" },
+  { name: "Node.js", aliases: ["node","node.js","nodejs"], category: "web", difficulty: "moderate" },
+  { name: "NumPy", aliases: [], category: "data", difficulty: "easy" },
+  { name: "OpenAI API", aliases: ["chatgpt api","gpt api"], category: "ai", difficulty: "easy" },
+  { name: "Oracle Database", aliases: ["oracle db","oracle sql"], category: "database", difficulty: "moderate" },
+  { name: "Oracle Fusion", aliases: ["bicc","oracle bicc","oracle fusion"], category: "data", difficulty: "moderate" },
+  { name: "Oracle ODI", aliases: ["odi","oracle data integrator"], category: "data", difficulty: "moderate" },
+  { name: "Pandas", aliases: [], category: "data", difficulty: "easy" },
+  { name: "Performance Tuning", aliases: ["optimization","query optimization"], category: "data", difficulty: "moderate" },
+  { name: "PL/SQL", aliases: ["plsql"], category: "data", difficulty: "moderate" },
+  { name: "PostgreSQL", aliases: ["postgres"], category: "database", difficulty: "easy" },
+  { name: "Power BI", aliases: ["power-bi","powerbi"], category: "analytics", difficulty: "easy" },
+  { name: "Process Automation", aliases: ["automation","workflow automation"], category: "tool", difficulty: "easy" },
+  { name: "Project Management", aliases: ["program management"], category: "soft", difficulty: "moderate" },
+  { name: "Prompt Engineering", aliases: [], category: "ai", difficulty: "easy" },
+  { name: "Python", aliases: [], category: "language", difficulty: "moderate" },
+  { name: "PyTorch", aliases: [], category: "ai", difficulty: "hard" },
+  { name: "R", aliases: ["r programming"], category: "language", difficulty: "moderate" },
+  { name: "RAG", aliases: ["retrieval augmented generation","retrieval-augmented generation"], category: "ai", difficulty: "moderate" },
+  { name: "React", aliases: ["react.js","reactjs"], category: "web", difficulty: "moderate" },
+  { name: "Redis", aliases: [], category: "database", difficulty: "easy" },
+  { name: "REST APIs", aliases: ["api development","rest api","restful"], category: "web", difficulty: "easy" },
+  { name: "Rust", aliases: [], category: "language", difficulty: "hard" },
+  { name: "Scala", aliases: [], category: "language", difficulty: "hard" },
+  { name: "scikit-learn", aliases: ["sklearn"], category: "ai", difficulty: "moderate" },
+  { name: "ServiceNow", aliases: [], category: "tool", difficulty: "easy" },
+  { name: "Snowflake", aliases: [], category: "data", difficulty: "moderate" },
+  { name: "SQL", aliases: ["mysql queries","pl/sql","t-sql"], category: "language", difficulty: "easy" },
+  { name: "SQL Server", aliases: ["microsoft sql server","mssql"], category: "database", difficulty: "easy" },
+  { name: "SSIS", aliases: ["sql server integration services"], category: "data", difficulty: "moderate" },
+  { name: "Stakeholder Management", aliases: ["stakeholder collaboration","stakeholder communication"], category: "soft", difficulty: "easy" },
+  { name: "Statistical Analysis", aliases: ["statistical modeling","statistics"], category: "analytics", difficulty: "moderate" },
+  { name: "Streaming", aliases: ["real time data","real-time data","stream processing"], category: "data", difficulty: "hard" },
+  { name: "Tableau", aliases: [], category: "analytics", difficulty: "easy" },
+  { name: "Tailwind CSS", aliases: ["tailwindcss"], category: "web", difficulty: "easy" },
+  { name: "Technical Documentation", aliases: ["documentation","sops","tdd documents"], category: "soft", difficulty: "easy" },
+  { name: "TensorFlow", aliases: [], category: "ai", difficulty: "hard" },
+  { name: "Terraform", aliases: ["iac","infrastructure as code"], category: "devops", difficulty: "moderate" },
+  { name: "Time Series Analysis", aliases: ["forecasting","time series"], category: "analytics", difficulty: "moderate" },
+  { name: "TypeScript", aliases: ["ts"], category: "language", difficulty: "moderate" },
+  { name: "XML Parsing", aliases: ["xml"], category: "tool", difficulty: "easy" },
+];
+
+// Hand-written writing rules live in writingRules.ts; re-exported so existing
+// imports from "@/lib/ai/skillsData" keep working.
+export { ACTION_VERBS, VAGUE_PHRASES, WEAK_BULLET_OPENERS } from "@/lib/ai/writingRules";
